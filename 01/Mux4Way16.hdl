@@ -11,10 +11,42 @@
  *       d if sel == 11
  */
 
+
+/**
+* Mux16(a= ,b= , sel= , out= );
+* inputs and outputs are entire arrays
+*
+*
+* */
+
+
+
+
+
 CHIP Mux4Way16 {
     IN a[16], b[16], c[16], d[16], sel[2];
     OUT out[16];
 
     PARTS:
     // Put your code here:
+    /**note:
+    *sel[0] is actually the second bit
+    *sel[1] is the first bit 
+      it's kind of reverse
+      ex. for b, sel == 01
+      but sel[0]=1, and sel[1]=0
+    **/
+
+    /*
+    *first select from [a,b] based on "first" seector
+    *then select from [c,d] based on "first" selector
+    *lastly select from the two picked based on the "second" selector
+    * working backwards
+    * wouldn't work the other way  unless you paired a&c, and b&d for first two selections
+    **/
+    Mux16(a=a, b=b, sel=sel[0], out=mux1);
+    Mux16(a=c, b=d, sel=sel[0], out=mux2);
+    Mux16(a=mux1, b=mux2, sel=sel[1], out=out);
+
+
 }
