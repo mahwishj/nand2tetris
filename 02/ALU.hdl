@@ -43,4 +43,44 @@ CHIP ALU {
 
     PARTS:
    // Put you code here:
+   //Zero x: Negate zx, & w x to get value x after zx
+    Not(in=zx, out=nzx);
+    And16(a=x, b[0]=nzx, b[1]=nzx, b[2]=nzx, b[3]=nzx, b[4]=nzx, b[5]=nzx, b[6]=nzx, b[7]=nzx, b[8]=nzx, b[9]=nzx, b[10]=nzx, b[11]=nzx, b[12]=nzx, b[13]=nzx, b[14]=nzx, b[15]=nzx, out=x1);
+
+    //Negate y: Negate xy, & w y to get value y after zy
+    Not(in=zy, out=nzy);
+    And16(a=y, b[0]=nzy, b[1]=nzy, b[2]=nzy, b[3]=nzy, b[4]=nzy, b[5]=nzy, b[6]=nzy, b[7]=nzy, b[8]=nzy, b[9]=nzy, b[10]=nzy, b[11]=nzy, b[12]=nzy, b[13]=nzy, b[14]=nzy, b[15]=nzy, out=y1);
+
+    //Negate x and store, then use Mux w/ sel=nx to output appropriate x
+    Not16(in=x1, out=notx);
+    Mux16(a=x1, b=notx, sel=nx, out=x2);
+
+    //Negate y and store, then use Mux w/ sel=ny to output appropriate x
+    Not16(in=y1, out=noty);
+    Mux16(a=y1, b=noty, sel=ny, out=y2);
+
+    //now use x2 and y2 moving forward
+
+    //can use Muxes again to select appropriate value after f applied
+    Add16(a=x2, b=y2, out=xplusy);
+    And16(a=x2, b=y2, out=xandy);
+    Mux16(a=xandy, b=xplusy, sel=f, out=xypostop);
+
+    //use another mux to determine if xypostop should be negated or not
+    Not16(in=xypostop, out=nxypostop);
+    Mux16(a=xypostop, b=nxypostop, sel=no, out=out, out[15]=out15, out[0..7]=outp1, out[8..15]=outp2);
+
+    //and out[15] with 1 to get ng
+    And(a=out15, b=true, out=ng);
+
+    //Or 8 way with both halves of output
+    //Then Or outputs of both Or8ways
+    //Negate output and assign to zr
+
+    Or8Way(in=outp1, out=or1);
+    Or8Way(in=outp2, out=or2);
+    Or(a=or1, b=or2, out=or3);
+    Not(in=or3, out=zr);
+
 }
+
