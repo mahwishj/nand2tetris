@@ -19,21 +19,4 @@ CHIP Mux8Way16 {
 
     PARTS:
     // Put your code here:
-
-    /*
-    * 8 arrays
-    * 4 selections
-    * 2 semi-finalists
-    * 1 finalist = out
-    * */
-
-    Mux16(a=a, b=b, sel=sel[0], out=muxab);
-    Mux16(a=c, b=d, sel=sel[0], out=muxcd);
-    Mux16(a=e, b=f, sel=sel[0], out=muxef);
-    Mux16(a=g, b=h, sel=sel[0], out=muxgh);
-
-    Mux16(a=muxab, b=muxcd, sel=sel[1], out = semi1);
-    Mux16(a=muxef, b= muxgh, sel=sel[1], out = semi2);
-
-    Mux16(a=semi1, b=semi2, sel=sel[2], out=out);
 }

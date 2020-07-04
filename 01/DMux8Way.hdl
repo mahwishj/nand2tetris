@@ -17,32 +17,4 @@ CHIP DMux8Way {
 
     PARTS:
     // Put your code here:
-/*
-* Like DMux 4 Way but on a larger scale
-* first store your "in" into temporary variables and then distribute 
-*  One of the DMux4Ways will all 0s. 
-*  Can also implement with all DMuxes or 4 DMuxes and 1 DMux4Way
-*
-* */
-
-/*  DMux(in=in, sel=sel[2], a=tempa, b=tempb);
-    DMux4Way(in=tempa, sel=sel[0..1], a=a, b=b, c=c, d=d);
-    DMux4Way(in=tempb, sel=sel[0..1], a=e, b=f, c=g, d=h);
-*/
-
-
-    DMux(in=in, sel=sel[2], a = tempa, b=tempb);
-
-    /*DMux4Way 1*/
-    DMux(in=tempa, sel=sel[1], a=temp2a, b= temp2b);
-    DMux(in=temp2a, sel=sel[0], a=a, b=b);
-    DMux(in=temp2b, sel=sel[0], a=c, b=d);
-
-    /*DMux4Way 2*/
-    DMux(in=tempb, sel=sel[1], a=temp3a, b= temp3b);
-    DMux(in=temp3a, sel=sel[0], a=e, b=f);
-    DMux(in=temp3b, sel=sel[0], a=g, b=h);
-
-
-
 }

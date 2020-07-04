@@ -17,17 +17,4 @@ CHIP DMux4Way {
 
     PARTS:
     // Put your code here:
-    
-    /* 
-    *First Dmux will be used for storage purposes
-    *Second & Third Demuxes will output a&b, c&d 
-    * 
-    * One of the latter two gates will be 0 0
-    *
-    *
-    * */
-
-    DMux(in=in, sel= sel[1], a=tempa, b=tempb);
-    DMux(in=tempa, sel=sel[0], a=a, b=b);
-    DMux(in=tempb, sel=sel[0], a=c, b=d);
 }
